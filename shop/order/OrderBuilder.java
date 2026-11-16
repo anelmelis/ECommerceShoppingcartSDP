@@ -56,6 +56,10 @@ public class OrderBuilder {
             throw new IllegalStateException("Address is required.");
         }
 
+        if (deliveryType == null) {
+            throw new IllegalStateException("Delivery type is required.");
+        }
+
         if (shippingCost < 0) {
             throw new IllegalStateException("Shipping cost cannot be negative.");
         }
@@ -67,7 +71,19 @@ public class OrderBuilder {
         double subtotal = 0;
 
         for (Product product : products) {
+            if (product == null) {
+                throw new IllegalStateException("Product cannot be null.");
+            }
+
+            if (product.getPrice() < 0) {
+                throw new IllegalStateException("Product price cannot be negative.");
+            }
+
             subtotal += product.getPrice();
+        }
+
+        if (discount > subtotal) {
+            throw new IllegalStateException("Discount cannot be greater than subtotal.");
         }
 
         double finalTotal = subtotal - discount + shippingCost;
