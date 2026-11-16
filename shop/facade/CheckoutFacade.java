@@ -25,8 +25,7 @@ public class CheckoutFacade {
     public Order placeOrder(Customer customer, List<Product> products, String address,
                             DeliveryType deliveryType, DiscountStrategy discountStrategy) {
         ShippingVisitor shippingVisitor = new ShippingVisitor();
-        double shippingCost = shippingVisitor.calculate(products);
-
+        double shippingCost = shippingVisitor.calculate(products, deliveryType);
         BigDecimal subtotal = BigDecimal.ZERO;
         for (Product product : products) {
             subtotal = subtotal.add(BigDecimal.valueOf(product.getPrice()));
